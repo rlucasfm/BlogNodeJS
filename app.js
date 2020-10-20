@@ -16,6 +16,7 @@
     const Categoria = mongoose.model("categorias")
     const passport = require("passport")
     require("./config/auth")(passport)
+    const db = require("./config/db")
 
 // Configurações
     // Configuração da sessão
@@ -45,7 +46,7 @@
         app.set('view engine', 'handlebars')
     // Mongoose
         mongoose.Promise = global.Promise
-        mongoose.connect("mongodb://localhost/blogapp", {
+        mongoose.connect(db.mongoURI, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         }).then(() => {
@@ -116,7 +117,7 @@
     })
     
 // Abertura do LISTEN
-const PORT = 8081
+const PORT = process.env.PORT || 8081
 app.listen(PORT, () => {
     console.log("Servidor aberto com sucesso.")
 })
